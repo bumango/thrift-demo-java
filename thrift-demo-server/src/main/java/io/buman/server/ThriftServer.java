@@ -1,5 +1,7 @@
-package io.buman.curd;
+package io.buman.server;
 
+import io.buman.player.PlayerService;
+import io.buman.wow.PlayerServiceImpl;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
@@ -11,24 +13,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Thrift server demo
- * @author: buman
- * @date: Created on 6:21 下午 2021/1/5
+ * @description: thrift server demo.
+ * @author: 李桂满
+ * @date: Created on 4:14 下午 2021/1/13
  */
 @Component
 public class ThriftServer {
     private final Logger log = LoggerFactory.getLogger(ThriftServer.class);
 
-    private CurdServiceImpl curdService;
+    private PlayerServiceImpl playerService;
 
     @Autowired
-    public ThriftServer setOauthService(CurdServiceImpl curdService) {
-        this.curdService = curdService;
+    public ThriftServer setPlayerService(PlayerServiceImpl playerService) {
+        this.playerService = playerService;
         return this;
     }
 
     public void start() {
-        CurdService.Processor<CurdService.Iface> processor = new CurdService.Processor<>(curdService);
+        PlayerService.Processor<PlayerService.Iface> processor = new PlayerService.Processor<>(playerService);
 
         try {
             TServerTransport transport = new TServerSocket(3041);
